@@ -1,41 +1,50 @@
-# Compiled Lua sources
-luac.out
+-- Made by UltimateScriptDemon Dont edit all this
+--bc this is the source for Benx Of Dahood
+-dont ask how to make one 
+--/Enjoy/
+--------------------------------------------------------------
 
-# luarocks build files
-*.src.rock
-*.zip
-*.tar.gz
-
-# Object files
-*.o
-*.os
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-*.def
-*.exp
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
+bending = true
+                local segtarget = Mod.Name
+                local Crouch = player.Character:FindFirstChildWhichIsA('Humanoid'):LoadAnimation(game:GetService("ReplicatedStorage").ClientAnimations.Crouching)
+                Crouch.Looped = true
+                Crouch:Play()
+                local away = .5
+                local reversing = false
+                local shirt = player.Character:FindFirstChild('Shirt')
+                local pants = player.Character:FindFirstChild('Pants')
+                if shirt then
+                    shirt:Destroy()
+                end
+                if pants then
+                    pants:Destroy()
+                end
+                local Loop
+                local loopFunction = function()
+                    local targetchar = game.Workspace.Players:FindFirstChild(segtarget) or game.Workspace:FindFirstChild(segtarget)
+                    local character = player.Character
+                    if targetchar then
+                        if reversing == true then
+                            away = away - 0.1
+                        else
+                            away = away + 0.1
+                        end
+                        if away >= 2 then
+                            reversing = true
+                        elseif away < 0.5 then
+                            reversing = false
+                        end
+                        character.HumanoidRootPart.CFrame = game.Players[segtarget].Character.HumanoidRootPart.CFrame + game.Players[segtarget].Character.HumanoidRootPart.CFrame.lookVector * away
+                    end
+                end;
+                local Start = function()
+                    Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+                end;
+                local Pause = function()
+                    Loop:Disconnect()
+                    Crouch:Stop()
+                end;
+                Start()
+                repeat wait() until bending == false
+                Pause()
+            end
